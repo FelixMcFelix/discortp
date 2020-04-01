@@ -1,0 +1,13 @@
+[package]
+name = "discortp"
+version = "1.0.0"
+authors = ["Kyle Simpson <kyleandrew.simpson@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+pnet_macros_support = "0.25"
+
+[build-dependencies]
+glob = "0.3"
+syntex = "0.42"
+pnet_macros = "0.25"

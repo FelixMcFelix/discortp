@@ -1,0 +1,56 @@
+use pnet_macros_support::types::*;
+use std::num::Wrapping;
+
+pub enum RtcpType {
+	/// Sender report, containing jitter, reception, timing and volume information.
+	///
+	/// See the relevant [RTP RFC section](https://tools.ietf.org/html/rfc3550#section-6.4.1).
+	/// Unlike the `ReceiverReport`, this includes a `SenderInfo` block.
+	SenderReport = 200,
+
+	/// Sender report, containing jitter and reception information.
+	///
+	/// See the relevant [RTP RFC section](https://tools.ietf.org/html/rfc3550#section-6.4.2).
+	ReceiverReport,
+
+	/// Source description, mapping SSRC/CCRC values to information about each host.
+	///
+	/// See the relevant [RTP RFC section](https://tools.ietf.org/html/rfc3550#section-6.5).
+	SourceDescription,
+
+	/// Source exit message, denoting SSRC/CCRC of exiting hosts and an optional reason string.
+	///
+	/// See the relevant [RTP RFC section](https://tools.ietf.org/html/rfc3550#section-6.6).
+	Goodbye,
+
+	/// Application-defined RTCP message, containing a name and arbitrary data.
+	///
+	/// See the relevant [RTP RFC section](https://tools.ietf.org/html/rfc3550#section-6.7).
+	ApplicationDefined,
+
+	/// Extended Report message, used for additional/mixed report blocks.
+	///
+	/// See [RTCP XR](https://tools.ietf.org/html/rfc3611).
+	ExtendedReport = 207,
+}
+
+#[packet]
+/// Packet header for the [RTP Control Protocol](https://tools.ietf.org/html/rfc3550#section-6).
+///
+/// This is a test description. [RFC](https://tools.ietf.org/html/rfc3550#section-6)
+pub struct Rtcp {
+	pub version: u2,
+
+	pub padding: u1,
+
+	pub rx_report_count: u5,
+
+	pub packet_type: u8,
+
+	pub pkt_length: u16be,
+
+	pub ssrc: u32be,
+
+	#[payload]
+	payload: Vec<u8>,
+}

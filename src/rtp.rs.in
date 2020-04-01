@@ -1,0 +1,32 @@
+use pnet_macros_support::types::*;
+use std::num::Wrapping;
+
+#[packet]
+/// Packet header for the [Real-time Transport Protocol](https://tools.ietf.org/html/rfc3550).
+///
+/// This is a test description.
+pub struct Rtp {
+	pub version: u2,
+
+	pub padding: u1,
+
+	pub extension: u1,
+
+	pub csrc_count: u4,
+
+	pub marker: u1,
+
+	pub payload_type: u7,
+
+	pub sequence: u16be,
+
+	pub timestamp: u32be,
+
+	pub ssrc: u32be,
+
+	#[length = "csrc_count"]
+	pub csrc_list: Vec<u32be>,
+
+	#[payload]
+	payload: Vec<u8>,
+}
