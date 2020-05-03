@@ -5,9 +5,17 @@ authors = ["Kyle Simpson <kyleandrew.simpson@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-pnet_macros_support = "0.25"
+pnet_macros_support = "0.26"
+
+[features]
+default = []
+discord = []
 
 [build-dependencies]
 glob = "0.3"
 syntex = "0.42"
-pnet_macros = "0.25"
+pnet_macros = "0.26"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
