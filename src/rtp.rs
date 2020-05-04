@@ -1,3 +1,9 @@
+//! Readers and writers for the [Real-time Transport Protocol].
+//!
+//! *These are included when using the `"rtp"` feature.*
+//!
+//! [Real-time Transport Protocol]: https://tools.ietf.org/html/rfc3550
+
 use pnet_macros_support::packet::PrimitiveValues;
 
 include!(concat!(env!("OUT_DIR"), "/rtp.rs"));

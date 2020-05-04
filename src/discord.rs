@@ -1,3 +1,7 @@
+//! Additional packet formats used by Discord.
+//!
+//! *These are included when using the `"discord"` feature.*
+
 use pnet_macros_support::packet::PrimitiveValues;
 
 include!(concat!(env!("OUT_DIR"), "/discord.rs"));

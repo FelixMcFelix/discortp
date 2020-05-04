@@ -2,9 +2,9 @@ use pnet_macros_support::types::*;
 use std::num::Wrapping;
 
 #[packet]
-/// Packet header for the [RTP Control Protocol](https://tools.ietf.org/html/rfc3550#section-6).
+/// Packet header for the [RTP Control Protocol].
 ///
-/// This is a test description. [RFC](https://tools.ietf.org/html/rfc3550#section-6)
+/// [RTP Control Protocol]: https://tools.ietf.org/html/rfc3550#section-6
 pub struct Rtcp {
 	pub version: u2,
 

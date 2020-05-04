@@ -2,9 +2,9 @@ use pnet_macros_support::types::*;
 use std::num::Wrapping;
 
 #[packet]
-/// Packet header for the [Real-time Transport Protocol](https://tools.ietf.org/html/rfc3550).
+/// Packet header for the [Real-time Transport Protocol].
 ///
-/// This is a test description.
+/// [Real-time Transport Protocol]: https://tools.ietf.org/html/rfc3550
 pub struct Rtp {
 	pub version: u2,
 

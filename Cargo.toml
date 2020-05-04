@@ -16,8 +16,13 @@ edition = "2018"
 pnet_macros_support = "0.26"
 
 [features]
-default = []
+default = ["pnet", "rtp", "rtcp"]
+demux = []
 discord = []
+discord-full = ["default", "demux", "discord"]
+pnet = []
+rtp = []
+rtcp = []
 
 [build-dependencies]
 glob = "0.3"

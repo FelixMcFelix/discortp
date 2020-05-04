@@ -1,3 +1,7 @@
+//! Readers and writers for the [RTP Control Protocol](https://tools.ietf.org/html/rfc3550#section-6).
+//!
+//! *These are included when using the `"rtcp"` feature.*
+
 use pnet_macros_support::packet::PrimitiveValues;
 
 include!(concat!(env!("OUT_DIR"), "/rtcp.rs"));
