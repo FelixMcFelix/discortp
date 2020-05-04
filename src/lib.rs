@@ -14,6 +14,15 @@ pub mod discord;
 pub mod rtcp;
 pub mod rtp;
 
+pub use pnet_macros_support::{
+	self,
+	packet::{
+		FromPacket,
+		MutablePacket,
+		Packet,
+		PacketSize,
+	},
+};
 use rtcp::{
 	MutableRtcpPacket,
 	RtcpPacket,
