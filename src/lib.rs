@@ -80,6 +80,7 @@ pub fn demux_mut(pkt: &mut [u8]) -> Option<DemuxedMut> {
 }
 
 // Returns true if RTP.
+#[inline]
 fn classify_pt(pkt: &[u8]) -> bool {
-	matches!(RtcpType::new(pkt[1]), RtcpType::Other(_))
+	matches!(RtcpType::new(pkt[1]), RtcpType::Reserved(_) | RtcpType::Unassigned(_))
 }

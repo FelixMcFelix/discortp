@@ -3,8 +3,26 @@ use pnet_macros_support::packet::PrimitiveValues;
 include!(concat!(env!("OUT_DIR"), "/rtcp.rs"));
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
-/// RTCP message types. These define the packet format used for the payload.
+/// RTCP message types. These define the packet format used for both the header and payload.
+///
+/// See the [IANA page] on the matter for an up-to-date-list.
+///
+/// [IANA page]: https://www.iana.org/assignments/rtp-parameters/rtp-parameters.xhtml#rtp-parameters-4
 pub enum RtcpType {
+	/// SMPTE time-code mapping.
+	///
+	/// See [RFC 5484](https://tools.ietf.org/html/rfc5484).
+	///
+	/// Code 194.
+	SmpteMap,
+
+	/// Extended inter-arrival jitter report.
+	///
+	/// See [RFC 5450](https://tools.ietf.org/html/rfc5450).
+	///
+	/// Code 195.
+	JitterReport,
+
 	/// Sender report, containing jitter, reception, timing and volume information.
 	///
 	/// See the relevant [RTP RFC section](https://tools.ietf.org/html/rfc3550#section-6.4.1).
@@ -41,16 +59,16 @@ pub enum RtcpType {
 	/// Code 204.
 	ApplicationDefined,
 
-	/// RTPFB, feedback on the transport layer.
+	/// RTPFB, feedback on the RTP transport layer.
 	///
-	/// See [RFC 4845](https://tools.ietf.org/html/rfc4585)
+	/// See [RFC 4585](https://tools.ietf.org/html/rfc4585)
 	///
 	/// Code 205.
 	TransportFeedback,
 
 	/// PSFB, feedback on the payload.
 	///
-	/// See [RFC 4845](https://tools.ietf.org/html/rfc4585)
+	/// See [RFC 4585](https://tools.ietf.org/html/rfc4585)
 	///
 	/// Code 206.
 	PayloadFeedback,
@@ -62,6 +80,13 @@ pub enum RtcpType {
 	/// Code 207.
 	ExtendedReport,
 
+	/// AVB RTCP packet.
+	///
+	/// See [IEEE P1733](https://ieeexplore.ieee.org/document/5154142).
+	///
+	/// Code 208.
+	Avb,
+
 	/// Receiver Summary information.
 	///
 	/// See [RFC 5760](https://tools.ietf.org/html/rfc5760).
@@ -69,23 +94,63 @@ pub enum RtcpType {
 	/// Code 209.
 	ReceiverSummary,
 
+	/// Port mapping.
+	///
+	/// See [RFC 6284](https://tools.ietf.org/html/rfc6284).
+	///
+	/// Code 210.
+	PortMapping,
+
+	/// IDMS settings.
+	///
+	/// See [RFC 7272](https://tools.ietf.org/html/rfc7272).
+	///
+	/// Code 211.
+	Idms,
+
+	/// Reporting group reporting sources.
+	///
+	/// See the [draft RFC](https://datatracker.ietf.org/doc/draft-ietf-avtcore-rtp-multi-stream-optimisation/).
+	///
+	/// Code 212.
+	ReportingGroupSources,
+
+	/// Splicing notification message.
+	///
+	/// See [RFC 8286](https://tools.ietf.org/html/rfc8286).
+	///
+	/// Code 213.
+	SplicingNotification,
+
+	/// Explicitly reserved code point.
+	Reserved(u8),
+
 	/// Unknown message type.
-	Other(u8),
+	Unassigned(u8),
 }
 
 impl RtcpType {
 	pub fn new(val: u8) -> Self {
+		use RtcpType::*;
 		match val {
-			200 => Self::SenderReport,
-			201 => Self::ReceiverReport,
-			202 => Self::SourceDescription,
-			203 => Self::Goodbye,
-			204 => Self::ApplicationDefined,
-			205 => Self::TransportFeedback,
-			206 => Self::PayloadFeedback,
-			207 => Self::ExtendedReport,
-			209 => Self::ReceiverSummary,
-			_ => Self::Other(val),
+			194 => SmpteMap,
+			195 => JitterReport,
+			200 => SenderReport,
+			201 => ReceiverReport,
+			202 => SourceDescription,
+			203 => Goodbye,
+			204 => ApplicationDefined,
+			205 => TransportFeedback,
+			206 => PayloadFeedback,
+			207 => ExtendedReport,
+			208 => Avb,
+			209 => ReceiverSummary,
+			210 => PortMapping,
+			211 => Idms,
+			212 => ReportingGroupSources,
+			213 => SplicingNotification,
+			0 | 192 | 193 | 255 => Reserved(val),
+			_ => Unassigned(val),
 		}
 	}
 }
@@ -94,17 +159,27 @@ impl PrimitiveValues for RtcpType {
 	type T = (u8,);
 
 	fn to_primitive_values(&self) -> Self::T {
+		use RtcpType::*;
 		match self {
-			Self::SenderReport => (200,),
-			Self::ReceiverReport => (201,),
-			Self::SourceDescription => (202,),
-			Self::Goodbye => (203,),
-			Self::ApplicationDefined => (204,),
-			Self::TransportFeedback => (205,),
-			Self::PayloadFeedback => (206,),
-			Self::ExtendedReport => (207,),
-			Self::ReceiverSummary => (209,),
-			Self::Other(val) => (*val,),
+			SmpteMap => (194,),
+			JitterReport => (195,),
+			SenderReport => (200,),
+			ReceiverReport => (201,),
+			SourceDescription => (202,),
+			Goodbye => (203,),
+			ApplicationDefined => (204,),
+			TransportFeedback => (205,),
+			PayloadFeedback => (206,),
+			ExtendedReport => (207,),
+			Avb => (208,),
+			ReceiverSummary => (209,),
+			PortMapping => (210,),
+			Idms => (211,),
+			ReportingGroupSources => (212,),
+			SplicingNotification => (213,),
+
+			Reserved(val) => (*val,),
+			Unassigned(val) => (*val,),
 		}
 	}
 }

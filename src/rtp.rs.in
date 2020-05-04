@@ -16,7 +16,8 @@ pub struct Rtp {
 
 	pub marker: u1,
 
-	pub payload_type: u7,
+	#[construct_with(u7)]
+	pub payload_type: RtpType,
 
 	pub sequence: u16be,
 
