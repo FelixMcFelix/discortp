@@ -1,7 +1,8 @@
 [package]
 name = "discortp"
-version = "0.1.0"
+version = "0.1.1"
 license = "ISC"
+homepage = "https://github.com/FelixMcFelix/discortp"
 repository = "https://github.com/FelixMcFelix/discortp.git"
 authors = ["Kyle Simpson <kyleandrew.simpson@gmail.com>"]
 keywords = ["rtp", "protocol", "parser"]
