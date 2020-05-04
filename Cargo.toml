@@ -1,7 +1,14 @@
 [package]
 name = "discortp"
-version = "1.0.0"
+version = "0.1.0"
+license = "ISC"
+repository = "https://github.com/FelixMcFelix/discortp.git"
 authors = ["Kyle Simpson <kyleandrew.simpson@gmail.com>"]
+keywords = ["rtp", "protocol", "parser"]
+categories = ["encoding", "multimedia::encoding", "network-programming", "parser-implementations"]
+description = "Lightweight, flexible Real-time Transport Protocol (RTP) parsing library."
+readme = "README.md"
+documentation = "https://docs.rs/discortp"
 edition = "2018"
 
 [dependencies]
