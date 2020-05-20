@@ -2,9 +2,24 @@
 //!
 //! *These are included when using the `"rtcp"` feature.*
 
-use pnet_macros_support::packet::PrimitiveValues;
+pub mod report;
 
-include!(concat!(env!("OUT_DIR"), "/rtcp.rs"));
+use pnet_macros_support::packet::PrimitiveValues;
+use report::*;
+
+/// RTCP packet variants separated from the same stream.
+#[derive(Debug)]
+pub enum RtcpPacket<'a> {
+	SenderReport(SenderReportPacket<'a>),
+	ReceiverReport(ReceiverReportPacket<'a>),
+}
+
+/// Mutable RTP/RTCP packets separated from the same stream.
+#[derive(Debug)]
+pub enum MutableRtcpPacket<'a> {
+	SenderReport(MutableSenderReportPacket<'a>),
+	ReceiverReport(MutableReceiverReportPacket<'a>),
+}
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 /// RTCP message types. These define the packet format used for both the header and payload.
@@ -133,7 +148,7 @@ pub enum RtcpType {
 	Unassigned(u8),
 }
 
-impl RtcpType {
+impl<'a> RtcpType {
 	pub fn new(val: u8) -> Self {
 		use RtcpType::*;
 		match val {
@@ -155,6 +170,30 @@ impl RtcpType {
 			213 => SplicingNotification,
 			0 | 192 | 193 | 255 => Reserved(val),
 			_ => Unassigned(val),
+		}
+	}
+
+	pub fn decode(&self, pkt: &'a [u8]) -> Option<RtcpPacket<'a>> {
+		use RtcpType::*;
+
+		match self {
+			SenderReport => SenderReportPacket::new(pkt)
+				.map(RtcpPacket::SenderReport),
+			ReceiverReport => ReceiverReportPacket::new(pkt)
+				.map(RtcpPacket::ReceiverReport),
+			_ => None,
+		}
+	}
+
+	pub fn decode_mut(&self, pkt: &'a mut [u8]) -> Option<MutableRtcpPacket<'a>> {
+		use RtcpType::*;
+
+		match self {
+			SenderReport => MutableSenderReportPacket::new(pkt)
+				.map(MutableRtcpPacket::SenderReport),
+			ReceiverReport => MutableReceiverReportPacket::new(pkt)
+				.map(MutableRtcpPacket::ReceiverReport),
+			_ => None,
 		}
 	}
 }

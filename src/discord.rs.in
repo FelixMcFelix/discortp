@@ -8,6 +8,7 @@ const FIXED_SIZE_COMPONENT: usize =
 // NOTE: pnet macro limitations disallow doc comments for now...
 
 #[packet]
+#[derive(Eq, PartialEq)]
 /// Packet format for Discord's [IP Discovery], used in NAT tunnelling.
 ///
 /// A description of fields:

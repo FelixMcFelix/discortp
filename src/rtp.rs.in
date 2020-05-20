@@ -2,8 +2,60 @@ use pnet_macros_support::types::*;
 use std::num::Wrapping;
 
 #[packet]
+#[derive(Eq, PartialEq)]
 /// Packet header for the [Real-time Transport Protocol].
 ///
+/// A description of fields:
+///
+/// ## `version`
+/// RTP version. Should be `2`.
+///
+/// ## `padding`
+/// Packet contains padding octets which are not part of the payload, but
+/// who are counted in [`length`]. The last byte of the payload contains the
+/// count of bytes to be ignored from the end (including itself).
+///
+/// ## `extension`
+/// If set, the fixed header must be followed by exactly one [`RtpExtension`].
+///
+/// ## `csrc_count`
+/// Number of CSRC identifiers following the fixed header.
+///
+/// ## `marker`
+/// Bitflag with application/profile-specific meaning, *e.g.*, frame boundaries.
+///
+/// ## `payload_type`
+/// Describes the format of the RTP [`payload`].
+///
+/// ## `sequence`
+/// Increments by `1` for every packet sent, and used to detect packet loss
+/// or enable reordering.
+///
+/// Should be initialised to a random number.
+///
+/// ## `timestamp`
+/// Sampling instant for the first octet of the payload: must be derived from a
+/// monotonically and linearly increasing clock. If data are generated periodically,
+/// then the measure should be derived from the sample clock (*e.g.*, increment by
+/// one for every sampling period).
+///
+/// Should be initialised to a random number.
+///
+/// ## `ssrc`
+/// Synchronisation Source, identifying the sender.
+///
+/// Should be initialised to a random number.
+///
+/// ## `csrc_list`
+/// Used to identify contributing SSRCs in the packet (*i.e.*, to allow speaker
+/// detection if packets are mixed and re-encoded along the path).
+///
+/// ## `payload`
+/// Bytes of the RTP body.
+///
+/// [`length`]: #structfield.length
+/// [`payload`]: #structfield.payload
+/// [`RtpExtension`]: struct.RtpExtension.html
 /// [Real-time Transport Protocol]: https://tools.ietf.org/html/rfc3550
 pub struct Rtp {
 	pub version: u2,
@@ -29,5 +81,30 @@ pub struct Rtp {
 	pub csrc_list: Vec<u32be>,
 
 	#[payload]
-	payload: Vec<u8>,
+	pub payload: Vec<u8>,
+}
+
+#[packet]
+#[derive(Eq, PartialEq)]
+/// Extension data for an [`Rtp`] packet.
+///
+/// A description of fields:
+///
+/// ## `info`
+/// Profile-defined, usually an extension type.
+///
+/// ## `length`
+/// Number of 32-but words in `payload`. `0` is valid.
+///
+/// ## `payload`
+/// Application-defined extension data.
+///
+/// [`Rtp`]: struct.Rtp.html
+pub struct RtpExtension {
+	pub info: u16be,
+
+	pub length: u16be,
+
+	#[payload]
+	pub payload: Vec<u8>,
 }
