@@ -8,8 +8,8 @@
 /// RTP version. Should be `2`.
 ///
 /// ## `padding`
-/// Packet contains padding octets which are not part of the payload, but
-/// who are counted in [`length`]. The last byte of the payload contains the
+/// Packet contains padding octets which are not part of the payload.
+/// The last byte of the payload contains the
 /// count of bytes to be ignored from the end (including itself).
 ///
 /// ## `extension`
@@ -50,7 +50,6 @@
 /// ## `payload`
 /// Bytes of the RTP body.
 ///
-/// [`length`]: #structfield.length
 /// [`payload`]: #structfield.payload
 /// [`RtpExtension`]: struct.RtpExtension.html
 /// [Real-time Transport Protocol]: https://tools.ietf.org/html/rfc3550
