@@ -3,7 +3,10 @@
 //! *These are included when using the `"rtcp"` feature.*
 
 pub mod report;
-
+use crate::{
+	MutablePacket,
+	Packet,
+};
 use pnet_macros_support::packet::PrimitiveValues;
 use report::*;
 
@@ -14,11 +17,77 @@ pub enum RtcpPacket<'a> {
 	ReceiverReport(ReceiverReportPacket<'a>),
 }
 
+impl<'a> Packet for RtcpPacket<'a> {
+	fn packet(&self) -> & [u8] {
+		use RtcpPacket::*;
+
+		match self {
+			SenderReport(s) => s.packet(),
+			ReceiverReport(s) => s.packet(),
+			_ => unimplemented!(),
+		}
+	}
+
+	fn payload(&self) -> &[u8] {
+		use RtcpPacket::*;
+
+		match self {
+			SenderReport(s) => s.payload(),
+			ReceiverReport(s) => s.payload(),
+			_ => unimplemented!(),
+		}
+	}
+}
+
 /// Mutable RTP/RTCP packets separated from the same stream.
 #[derive(Debug)]
 pub enum MutableRtcpPacket<'a> {
 	SenderReport(MutableSenderReportPacket<'a>),
 	ReceiverReport(MutableReceiverReportPacket<'a>),
+}
+
+impl<'a> Packet for MutableRtcpPacket<'a> {
+	fn packet(&self) -> & [u8] {
+		use MutableRtcpPacket::*;
+
+		match self {
+			SenderReport(s) => s.packet(),
+			ReceiverReport(s) => s.packet(),
+			_ => unimplemented!(),
+		}
+	}
+
+	fn payload(&self) -> &[u8] {
+		use MutableRtcpPacket::*;
+
+		match self {
+			SenderReport(s) => s.payload(),
+			ReceiverReport(s) => s.payload(),
+			_ => unimplemented!(),
+		}
+	}
+}
+
+impl<'a> MutablePacket for MutableRtcpPacket<'a> {
+	fn packet_mut(&mut self) -> &mut [u8] {
+		use MutableRtcpPacket::*;
+
+		match self {
+			SenderReport(s) => s.packet_mut(),
+			ReceiverReport(s) => s.packet_mut(),
+			_ => unimplemented!(),
+		}
+	}
+
+	fn payload_mut(&mut self) -> &mut [u8] {
+		use MutableRtcpPacket::*;
+
+		match self {
+			SenderReport(s) => s.payload_mut(),
+			ReceiverReport(s) => s.payload_mut(),
+			_ => unimplemented!(),
+		}
+	}
 }
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]

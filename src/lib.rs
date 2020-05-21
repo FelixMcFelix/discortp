@@ -33,6 +33,9 @@ pub mod rtcp;
 #[cfg(feature = "rtp")]
 pub mod rtp;
 
+#[cfg(feature = "rtp")]
+pub mod wrap;
+
 #[cfg(feature = "pnet")]
 pub use pnet_macros_support::{
 	self as pnet,

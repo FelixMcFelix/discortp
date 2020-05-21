@@ -1,12 +1,3 @@
-use pnet_macros_support::types::*;
-use std::mem;
-
-const FIXED_SIZE_COMPONENT: usize =
-	std::mem::size_of::<u16>() +
-	std::mem::size_of::<u32>();
-
-// NOTE: pnet macro limitations disallow doc comments for now...
-
 #[packet]
 #[derive(Eq, PartialEq)]
 /// Packet format for Discord's [IP Discovery], used in NAT tunnelling.
@@ -53,6 +44,7 @@ pub struct IpDiscovery {
 	pub length: u16be,
 
 	pub ssrc: u32be,
+	
 	#[length = "length - FIXED_SIZE_COMPONENT"]
 	pub address: Vec<u8>,
 
