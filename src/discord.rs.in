@@ -54,3 +54,25 @@ pub struct IpDiscovery {
 	#[length = "0"]
 	pub payload: Vec<u8>
 }
+
+#[packet]
+#[derive(Eq, PartialEq)]
+/// Packet format for Discord's UDP Keepalives.
+///
+/// A description of fields:
+///
+/// ## [`ssrc`]
+/// SSRC of the sending source.
+///
+/// ## [`payload`]
+/// No payload exists for this packet type: 0-length.
+///
+/// [`ssrc`]: #structfield.ssrc
+/// [`payload`]: #structfield.payload
+pub struct Keepalive {
+	pub ssrc: u32be,
+
+	#[payload]
+	#[length = "0"]
+	pub payload: Vec<u8>
+}
