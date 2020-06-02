@@ -4,11 +4,19 @@
 
 pub mod report;
 use crate::{
+	FromPacket,
 	MutablePacket,
 	Packet,
+	PacketSize,
 };
 use pnet_macros_support::packet::PrimitiveValues;
 use report::*;
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum Rtcp {
+	SenderReport(SenderReport),
+	ReceiverReport(ReceiverReport),
+}
 
 /// RTCP packet variants separated from the same stream.
 #[derive(Debug)]
@@ -36,6 +44,32 @@ impl<'a> Packet for RtcpPacket<'a> {
 			ReceiverReport(s) => s.payload(),
 			_ => unimplemented!(),
 		}
+	}
+}
+
+impl<'a> FromPacket for RtcpPacket<'a> {
+	type T = Rtcp;
+
+	fn from_packet(&self) -> Self::T {
+		use RtcpPacket::*;
+
+		match self {
+			SenderReport(s) => Rtcp::SenderReport(s.from_packet()),
+			ReceiverReport(s) => Rtcp::ReceiverReport(s.from_packet()),
+			_ => unimplemented!(),
+		}
+	}
+}
+
+impl<'a> PacketSize for RtcpPacket<'a> {
+	fn packet_size(&self) -> usize {
+		use RtcpPacket::*;
+
+		match self {
+			SenderReport(s) => s.packet_size(),
+			ReceiverReport(s) => s.packet_size(),
+			_ => unimplemented!(),
+		}	
 	}
 }
 
@@ -87,6 +121,33 @@ impl<'a> MutablePacket for MutableRtcpPacket<'a> {
 			ReceiverReport(s) => s.payload_mut(),
 			_ => unimplemented!(),
 		}
+	}
+}
+
+impl<'a> FromPacket for MutableRtcpPacket<'a> {
+	type T = Rtcp;
+
+	fn from_packet(&self) -> Self::T {
+		use MutableRtcpPacket::*;
+
+		match self {
+			SenderReport(s) => Rtcp::SenderReport(s.from_packet()),
+			ReceiverReport(s) => Rtcp::ReceiverReport(s.from_packet()),
+			_ => unimplemented!(),
+		}
+	}
+}
+
+
+impl<'a> PacketSize for MutableRtcpPacket<'a> {
+	fn packet_size(&self) -> usize {
+		use MutableRtcpPacket::*;
+
+		match self {
+			SenderReport(s) => s.packet_size(),
+			ReceiverReport(s) => s.packet_size(),
+			_ => unimplemented!(),
+		}	
 	}
 }
 
