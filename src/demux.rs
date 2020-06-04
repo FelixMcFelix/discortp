@@ -47,8 +47,8 @@ pub enum DemuxedMut<'a> {
 /// Returns `None` if the `pkt` is too short (less than 2 bytes).
 ///
 /// [RFC 5761]: https://tools.ietf.org/html/rfc5761#section-4
-/// [`RtcpPacket`]: rtcp/struct.RtcpPacket.html
-/// [RTCP packet type]: rtcp/enum.RtcpType.html
+/// [`RtcpPacket`]: ../rtcp/struct.RtcpPacket.html
+/// [RTCP packet type]: ../rtcp/enum.RtcpType.html
 pub fn demux(pkt: &[u8]) -> Demuxed {
 	if pkt.len() < 2 {
 		Demuxed::TooSmall
