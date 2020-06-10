@@ -5,10 +5,7 @@
 //! [Real-time Transport Protocol]: https://tools.ietf.org/html/rfc3550
 
 use crate::wrap::*;
-use pnet_macros_support::{
-	packet::PrimitiveValues,
-	types::*,
-};
+use pnet_macros_support::{packet::PrimitiveValues, types::*};
 
 include!(concat!(env!("OUT_DIR"), "/rtp.rs"));
 

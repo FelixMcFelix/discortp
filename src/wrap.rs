@@ -1,13 +1,7 @@
 //! Utility types for wrapping arithmetic, compatible with pnet.
 
-use pnet_macros_support::{
-	packet::PrimitiveValues,
-	types::*,
-};
-use std::{
-	num::Wrapping,
-	ops::*,
-};
+use pnet_macros_support::{packet::PrimitiveValues, types::*};
+use std::{num::Wrapping, ops::*};
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub struct Wrap16(pub Wrapping<u16>);

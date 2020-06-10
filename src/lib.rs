@@ -39,10 +39,5 @@ pub mod wrap;
 #[cfg(feature = "pnet")]
 pub use pnet_macros_support::{
 	self as pnet,
-	packet::{
-		FromPacket,
-		MutablePacket,
-		Packet,
-		PacketSize,
-	},
+	packet::{FromPacket, MutablePacket, Packet, PacketSize},
 };

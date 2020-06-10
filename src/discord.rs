@@ -2,17 +2,12 @@
 //!
 //! *These are included when using the `"discord"` feature.*
 
-use pnet_macros_support::{
-	packet::PrimitiveValues,
-	types::*,
-};
+use pnet_macros_support::{packet::PrimitiveValues, types::*};
 use std::mem;
 
 include!(concat!(env!("OUT_DIR"), "/discord.rs"));
 
-const FIXED_SIZE_COMPONENT: usize =
-	std::mem::size_of::<u16>() +
-	std::mem::size_of::<u32>();
+const FIXED_SIZE_COMPONENT: usize = std::mem::size_of::<u16>() + std::mem::size_of::<u32>();
 
 const IP_DISCOVERY_LEN: usize = IpDiscoveryPacket::minimum_packet_size() + 64;
 

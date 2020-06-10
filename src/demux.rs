@@ -3,16 +3,8 @@
 //! *These are included when using the `"demux"` feature.*
 
 use crate::{
-	rtcp::{
-		MutableRtcpPacket,
-		RtcpPacket,
-		RtcpType,
-	},
-	rtp::{
-		MutableRtpPacket,
-		RtpPacket,
-		RtpType,
-	},
+	rtcp::{MutableRtcpPacket, RtcpPacket, RtcpType},
+	rtp::{MutableRtpPacket, RtpPacket, RtpType},
 };
 
 /// RTP/RTCP packets separated from the same stream.
@@ -55,11 +47,10 @@ pub fn demux(pkt: &[u8]) -> Demuxed {
 	} else {
 		let pt = classify_pt(pkt);
 		match pt {
-			DemuxType::Rtp(_) => RtpPacket::new(pkt)
-				.map(Demuxed::Rtp),
-			DemuxType::Rtcp(rt) => rt.decode(pkt)
-				.map(Demuxed::Rtcp),
-		}.unwrap_or_else(|| Demuxed::FailedParse(pt))
+			DemuxType::Rtp(_) => RtpPacket::new(pkt).map(Demuxed::Rtp),
+			DemuxType::Rtcp(rt) => rt.decode(pkt).map(Demuxed::Rtcp),
+		}
+		.unwrap_or_else(|| Demuxed::FailedParse(pt))
 	}
 }
 
@@ -74,11 +65,10 @@ pub fn demux_mut(pkt: &mut [u8]) -> DemuxedMut {
 	} else {
 		let pt = classify_pt(pkt);
 		match pt {
-			DemuxType::Rtp(_) => MutableRtpPacket::new(pkt)
-				.map(DemuxedMut::Rtp),
-			DemuxType::Rtcp(rt) => rt.decode_mut(pkt)
-				.map(DemuxedMut::Rtcp),
-		}.unwrap_or_else(|| DemuxedMut::FailedParse(pt))
+			DemuxType::Rtp(_) => MutableRtpPacket::new(pkt).map(DemuxedMut::Rtp),
+			DemuxType::Rtcp(rt) => rt.decode_mut(pkt).map(DemuxedMut::Rtcp),
+		}
+		.unwrap_or_else(|| DemuxedMut::FailedParse(pt))
 	}
 }
 
@@ -92,7 +82,8 @@ pub enum DemuxType {
 #[inline]
 fn classify_pt(pkt: &[u8]) -> DemuxType {
 	match RtcpType::new(pkt[1]) {
-		RtcpType::Reserved(a) | RtcpType::Unassigned(a) => DemuxType::Rtp(RtpType::new(a & 0b0111_1111)),
-		a@_ => DemuxType::Rtcp(a),
+		RtcpType::Reserved(a) | RtcpType::Unassigned(a) =>
+			DemuxType::Rtp(RtpType::new(a & 0b0111_1111)),
+		a @ _ => DemuxType::Rtcp(a),
 	}
 }

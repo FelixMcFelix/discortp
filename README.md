@@ -1,4 +1,4 @@
-[![docs-badge][]][docs] [![crates.io version][]][crates.io link] [![license][]][license link]
+[![docs-badge][]][docs] [![crates.io version][]][crates.io link] [![license][]][license link] [![rust version badge]][rust version link]
 
 # DiscoRTP
 DiscoRTP is a lightweight, flexible [Real-time Transport Protocol] parsing library designed for use in non-standards compliant environments, such as [Discord].
@@ -28,3 +28,6 @@ discortp = "0.2"
 
 [license]: https://img.shields.io/crates/l/discortp?style=flat-square
 [license link]: https://opensource.org/licenses/ISC
+
+[rust version badge]: https://img.shields.io/badge/rust-version-93450a.svg?style=flat-square
+[rust version link]: https://blog.rust-lang.org/2019/02/28/Rust-1.33.0.html

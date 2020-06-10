@@ -3,12 +3,7 @@
 //! *These are included when using the `"rtcp"` feature.*
 
 pub mod report;
-use crate::{
-	FromPacket,
-	MutablePacket,
-	Packet,
-	PacketSize,
-};
+use crate::{FromPacket, MutablePacket, Packet, PacketSize};
 use pnet_macros_support::packet::PrimitiveValues;
 use report::*;
 
@@ -26,7 +21,7 @@ pub enum RtcpPacket<'a> {
 }
 
 impl<'a> Packet for RtcpPacket<'a> {
-	fn packet(&self) -> & [u8] {
+	fn packet(&self) -> &[u8] {
 		use RtcpPacket::*;
 
 		match self {
@@ -69,7 +64,7 @@ impl<'a> PacketSize for RtcpPacket<'a> {
 			SenderReport(s) => s.packet_size(),
 			ReceiverReport(s) => s.packet_size(),
 			_ => unimplemented!(),
-		}	
+		}
 	}
 }
 
@@ -81,7 +76,7 @@ pub enum MutableRtcpPacket<'a> {
 }
 
 impl<'a> Packet for MutableRtcpPacket<'a> {
-	fn packet(&self) -> & [u8] {
+	fn packet(&self) -> &[u8] {
 		use MutableRtcpPacket::*;
 
 		match self {
@@ -138,7 +133,6 @@ impl<'a> FromPacket for MutableRtcpPacket<'a> {
 	}
 }
 
-
 impl<'a> PacketSize for MutableRtcpPacket<'a> {
 	fn packet_size(&self) -> usize {
 		use MutableRtcpPacket::*;
@@ -147,7 +141,7 @@ impl<'a> PacketSize for MutableRtcpPacket<'a> {
 			SenderReport(s) => s.packet_size(),
 			ReceiverReport(s) => s.packet_size(),
 			_ => unimplemented!(),
-		}	
+		}
 	}
 }
 
@@ -307,10 +301,8 @@ impl<'a> RtcpType {
 		use RtcpType::*;
 
 		match self {
-			SenderReport => SenderReportPacket::new(pkt)
-				.map(RtcpPacket::SenderReport),
-			ReceiverReport => ReceiverReportPacket::new(pkt)
-				.map(RtcpPacket::ReceiverReport),
+			SenderReport => SenderReportPacket::new(pkt).map(RtcpPacket::SenderReport),
+			ReceiverReport => ReceiverReportPacket::new(pkt).map(RtcpPacket::ReceiverReport),
 			_ => None,
 		}
 	}
@@ -319,10 +311,10 @@ impl<'a> RtcpType {
 		use RtcpType::*;
 
 		match self {
-			SenderReport => MutableSenderReportPacket::new(pkt)
-				.map(MutableRtcpPacket::SenderReport),
-			ReceiverReport => MutableReceiverReportPacket::new(pkt)
-				.map(MutableRtcpPacket::ReceiverReport),
+			SenderReport =>
+				MutableSenderReportPacket::new(pkt).map(MutableRtcpPacket::SenderReport),
+			ReceiverReport =>
+				MutableReceiverReportPacket::new(pkt).map(MutableRtcpPacket::ReceiverReport),
 			_ => None,
 		}
 	}

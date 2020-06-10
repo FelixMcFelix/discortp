@@ -1,7 +1,4 @@
-use std::{
-	env,
-	path::Path,
-};
+use std::{env, path::Path};
 
 // heavily based upon https://raw.githubusercontent.com/libpnet/libpnet/master/pnet_packet/build.rs
 fn main() {
