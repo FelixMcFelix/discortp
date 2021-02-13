@@ -20,6 +20,12 @@ pub enum RtcpPacket<'a> {
 	ReceiverReport(ReceiverReportPacket<'a>),
 }
 
+impl RtcpPacket<'_> {
+	pub fn new<'a>(pkt: &'a [u8]) -> Option<RtcpPacket<'a>> {
+		RtcpType::from_packet(pkt).and_then(|rtcp_id| rtcp_id.decode(pkt))
+	}
+}
+
 impl<'a> Packet for RtcpPacket<'a> {
 	fn packet(&self) -> &[u8] {
 		use RtcpPacket::*;
@@ -73,6 +79,12 @@ impl<'a> PacketSize for RtcpPacket<'a> {
 pub enum MutableRtcpPacket<'a> {
 	SenderReport(MutableSenderReportPacket<'a>),
 	ReceiverReport(MutableReceiverReportPacket<'a>),
+}
+
+impl MutableRtcpPacket<'_> {
+	pub fn new<'a>(pkt: &'a mut [u8]) -> Option<MutableRtcpPacket<'a>> {
+		RtcpType::from_packet(pkt).and_then(move |rtcp_id| rtcp_id.decode_mut(pkt))
+	}
 }
 
 impl<'a> Packet for MutableRtcpPacket<'a> {
@@ -317,6 +329,10 @@ impl<'a> RtcpType {
 				MutableReceiverReportPacket::new(pkt).map(MutableRtcpPacket::ReceiverReport),
 			_ => None,
 		}
+	}
+
+	pub fn from_packet(pkt: &[u8]) -> Option<Self> {
+		pkt.get(1).cloned().map(Self::new)
 	}
 }
 
