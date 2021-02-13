@@ -10,6 +10,7 @@ use pnet_macros_support::{packet::PrimitiveValues, types::*};
 include!(concat!(env!("OUT_DIR"), "/rtp.rs"));
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 /// RTP message types. These define the packet format used for the payload.
 ///
 /// See the [IANA page] on the matter for an up-to-date-list.

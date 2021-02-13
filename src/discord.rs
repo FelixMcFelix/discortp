@@ -31,6 +31,7 @@ impl MutableIpDiscoveryPacket<'_> {
 ///
 /// [`Other`]: #variant.Other
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub enum IpDiscoveryType {
 	Request,
 	Response,

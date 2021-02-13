@@ -8,6 +8,7 @@ use pnet_macros_support::packet::PrimitiveValues;
 use report::*;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 pub enum Rtcp {
 	SenderReport(SenderReport),
 	ReceiverReport(ReceiverReport),
@@ -15,6 +16,7 @@ pub enum Rtcp {
 
 /// RTCP packet variants separated from the same stream.
 #[derive(Debug)]
+#[non_exhaustive]
 pub enum RtcpPacket<'a> {
 	SenderReport(SenderReportPacket<'a>),
 	ReceiverReport(ReceiverReportPacket<'a>),
@@ -76,6 +78,7 @@ impl<'a> PacketSize for RtcpPacket<'a> {
 
 /// Mutable RTP/RTCP packets separated from the same stream.
 #[derive(Debug)]
+#[non_exhaustive]
 pub enum MutableRtcpPacket<'a> {
 	SenderReport(MutableSenderReportPacket<'a>),
 	ReceiverReport(MutableReceiverReportPacket<'a>),
@@ -158,6 +161,7 @@ impl<'a> PacketSize for MutableRtcpPacket<'a> {
 }
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[non_exhaustive]
 /// RTCP message types. These define the packet format used for both the header and payload.
 ///
 /// See the [IANA page] on the matter for an up-to-date-list.
