@@ -17,7 +17,7 @@ pub enum Rtcp {
 }
 
 /// RTCP packet variants separated from the same stream.
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 #[non_exhaustive]
 pub enum RtcpPacket<'a> {
 	SenderReport(SenderReportPacket<'a>),
@@ -39,7 +39,7 @@ impl<'a> Packet for RtcpPacket<'a> {
 		match self {
 			SenderReport(s) => s.packet(),
 			ReceiverReport(s) => s.packet(),
-			_ => unimplemented!(),
+			KnownType(_) => &[],
 		}
 	}
 
@@ -49,7 +49,7 @@ impl<'a> Packet for RtcpPacket<'a> {
 		match self {
 			SenderReport(s) => s.payload(),
 			ReceiverReport(s) => s.payload(),
-			_ => unimplemented!(),
+			KnownType(_) => &[],
 		}
 	}
 }
@@ -63,7 +63,7 @@ impl<'a> FromPacket for RtcpPacket<'a> {
 		match self {
 			SenderReport(s) => Rtcp::SenderReport(s.from_packet()),
 			ReceiverReport(s) => Rtcp::ReceiverReport(s.from_packet()),
-			_ => unimplemented!(),
+			KnownType(t) => Rtcp::KnownType(*t),
 		}
 	}
 }
@@ -75,18 +75,18 @@ impl<'a> PacketSize for RtcpPacket<'a> {
 		match self {
 			SenderReport(s) => s.packet_size(),
 			ReceiverReport(s) => s.packet_size(),
-			_ => unimplemented!(),
+			KnownType(_) => 0,
 		}
 	}
 }
 
 /// Mutable RTP/RTCP packets separated from the same stream.
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 #[non_exhaustive]
 pub enum MutableRtcpPacket<'a> {
 	SenderReport(MutableSenderReportPacket<'a>),
 	ReceiverReport(MutableReceiverReportPacket<'a>),
-	
+
 	KnownType(RtcpType),
 }
 
@@ -103,7 +103,7 @@ impl<'a> Packet for MutableRtcpPacket<'a> {
 		match self {
 			SenderReport(s) => s.packet(),
 			ReceiverReport(s) => s.packet(),
-			_ => unimplemented!(),
+			KnownType(_) => &[],
 		}
 	}
 
@@ -113,7 +113,7 @@ impl<'a> Packet for MutableRtcpPacket<'a> {
 		match self {
 			SenderReport(s) => s.payload(),
 			ReceiverReport(s) => s.payload(),
-			_ => unimplemented!(),
+			KnownType(_) => &[],
 		}
 	}
 }
@@ -125,7 +125,7 @@ impl<'a> MutablePacket for MutableRtcpPacket<'a> {
 		match self {
 			SenderReport(s) => s.packet_mut(),
 			ReceiverReport(s) => s.packet_mut(),
-			_ => unimplemented!(),
+			KnownType(_) => &mut [],
 		}
 	}
 
@@ -135,7 +135,7 @@ impl<'a> MutablePacket for MutableRtcpPacket<'a> {
 		match self {
 			SenderReport(s) => s.payload_mut(),
 			ReceiverReport(s) => s.payload_mut(),
-			_ => unimplemented!(),
+			KnownType(_) => &mut [],
 		}
 	}
 }
@@ -149,7 +149,7 @@ impl<'a> FromPacket for MutableRtcpPacket<'a> {
 		match self {
 			SenderReport(s) => Rtcp::SenderReport(s.from_packet()),
 			ReceiverReport(s) => Rtcp::ReceiverReport(s.from_packet()),
-			_ => unimplemented!(),
+			KnownType(t) => Rtcp::KnownType(*t),
 		}
 	}
 }
@@ -161,12 +161,12 @@ impl<'a> PacketSize for MutableRtcpPacket<'a> {
 		match self {
 			SenderReport(s) => s.packet_size(),
 			ReceiverReport(s) => s.packet_size(),
-			_ => unimplemented!(),
+			KnownType(_) => 0,
 		}
 	}
 }
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, Hash, PartialEq)]
 #[non_exhaustive]
 /// RTCP message types. These define the packet format used for both the header and payload.
 ///
