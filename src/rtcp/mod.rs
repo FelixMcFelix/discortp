@@ -12,6 +12,8 @@ use report::*;
 pub enum Rtcp {
 	SenderReport(SenderReport),
 	ReceiverReport(ReceiverReport),
+
+	KnownType(RtcpType),
 }
 
 /// RTCP packet variants separated from the same stream.
@@ -20,6 +22,8 @@ pub enum Rtcp {
 pub enum RtcpPacket<'a> {
 	SenderReport(SenderReportPacket<'a>),
 	ReceiverReport(ReceiverReportPacket<'a>),
+
+	KnownType(RtcpType),
 }
 
 impl RtcpPacket<'_> {
@@ -82,6 +86,8 @@ impl<'a> PacketSize for RtcpPacket<'a> {
 pub enum MutableRtcpPacket<'a> {
 	SenderReport(MutableSenderReportPacket<'a>),
 	ReceiverReport(MutableReceiverReportPacket<'a>),
+	
+	KnownType(RtcpType),
 }
 
 impl MutableRtcpPacket<'_> {
@@ -319,7 +325,7 @@ impl<'a> RtcpType {
 		match self {
 			SenderReport => SenderReportPacket::new(pkt).map(RtcpPacket::SenderReport),
 			ReceiverReport => ReceiverReportPacket::new(pkt).map(RtcpPacket::ReceiverReport),
-			_ => None,
+			a => Some(RtcpPacket::KnownType(*a)),
 		}
 	}
 
@@ -331,7 +337,7 @@ impl<'a> RtcpType {
 				MutableSenderReportPacket::new(pkt).map(MutableRtcpPacket::SenderReport),
 			ReceiverReport =>
 				MutableReceiverReportPacket::new(pkt).map(MutableRtcpPacket::ReceiverReport),
-			_ => None,
+			a => Some(MutableRtcpPacket::KnownType(*a)),
 		}
 	}
 
