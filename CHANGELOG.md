@@ -1,6 +1,11 @@
 # Changelog
 Notable updates will be documented here, adhering to [Semantic Versioning][semver].
 
+## [0.3.0] - 2021-03-22
+* Update `libpnet` version to 0.27.
+* Make remaining (incomplete) packet variants non-exhaustive to allow non-breaking addition.
+* Add `RtcpType` variants to simplify decoding of (as-yet unsupported) RTCP types without using the demux utilities.
+
 ## [0.2.2] - 2021-02-13
 * Added RTCP packet view creation methods.
 
@@ -19,6 +24,7 @@ Notable updates will be documented here, adhering to [Semantic Versioning][semve
 ## [0.1.0] - 2020-05-04
 * Initial version.
 
+[0.3.0]: https://github.com/FelixMcFelix/discortp/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/FelixMcFelix/discortp/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/FelixMcFelix/discortp/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/FelixMcFelix/discortp/compare/v0.1.1...v0.2.0
