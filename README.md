@@ -13,7 +13,7 @@ DiscoRTP was originally developed for use in [Serenity].
 Add the following to your cargo.toml:
 ```toml
 [dependencies]
-discortp = "0.2"
+discortp = "0.3"
 ```
 
 [Real-time Transport Protocol]: https://tools.ietf.org/html/rfc3550
