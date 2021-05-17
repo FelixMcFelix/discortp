@@ -13,7 +13,8 @@ documentation = "https://docs.rs/discortp"
 edition = "2018"
 
 [dependencies]
-pnet_macros_support = "0.27"
+pnet_macros = "0.28"
+pnet_macros_support = "0.28"
 
 [features]
 default = ["pnet", "rtp", "rtcp"]
@@ -23,11 +24,6 @@ discord-full = ["default", "demux", "discord"]
 pnet = []
 rtp = []
 rtcp = []
-
-[build-dependencies]
-glob = "0.3"
-syntex = "0.42"
-pnet_macros = "0.27"
 
 [package.metadata.docs.rs]
 all-features = true
