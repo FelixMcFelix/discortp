@@ -1,6 +1,11 @@
 # Changelog
 Notable updates will be documented here, adhering to [Semantic Versioning][semver].
 
+## [0.4.0] - 2021-05-17
+* Update `libpnet` version to 0.28.
+* All packet definitions have been converted to proc-macros.
+* MSRV is now Rust 1.42.0+.
+
 ## [0.3.0] - 2021-03-22
 * Update `libpnet` version to 0.27.
 * Make remaining (incomplete) packet variants non-exhaustive to allow non-breaking addition.
@@ -24,6 +29,7 @@ Notable updates will be documented here, adhering to [Semantic Versioning][semve
 ## [0.1.0] - 2020-05-04
 * Initial version.
 
+[0.4.0]: https://github.com/FelixMcFelix/discortp/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/FelixMcFelix/discortp/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/FelixMcFelix/discortp/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/FelixMcFelix/discortp/compare/v0.2.0...v0.2.1

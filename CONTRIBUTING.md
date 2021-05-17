@@ -35,9 +35,6 @@ At a high level, this enforces:
  * Tabs (\t) indentation,
  * Trailing commas in match blocks.
 
-Packet definitions (`*.rs.in`) are not covered by `rustfmt`.
-Due to this, code added to these files should be kept only to additional packet/segment definitions.
-
 Documentation, comments, and function names should adhere to UK English where possible (*i.e.*, "colour" and not "color").
 
 [README.md]: README.md
