@@ -4,7 +4,6 @@
 
 use pnet_macros::packet;
 use pnet_macros_support::{packet::PrimitiveValues, types::*};
-use std::mem;
 
 #[packet]
 #[derive(Eq, PartialEq)]

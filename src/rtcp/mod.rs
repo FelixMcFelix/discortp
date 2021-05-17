@@ -27,7 +27,7 @@ pub enum RtcpPacket<'a> {
 }
 
 impl RtcpPacket<'_> {
-	pub fn new<'a>(pkt: &'a [u8]) -> Option<RtcpPacket<'a>> {
+	pub fn new(pkt: &[u8]) -> Option<RtcpPacket<'_>> {
 		RtcpType::from_packet(pkt).and_then(|rtcp_id| rtcp_id.decode(pkt))
 	}
 }
@@ -91,7 +91,7 @@ pub enum MutableRtcpPacket<'a> {
 }
 
 impl MutableRtcpPacket<'_> {
-	pub fn new<'a>(pkt: &'a mut [u8]) -> Option<MutableRtcpPacket<'a>> {
+	pub fn new(pkt: &mut [u8]) -> Option<MutableRtcpPacket<'_>> {
 		RtcpType::from_packet(pkt).and_then(move |rtcp_id| rtcp_id.decode_mut(pkt))
 	}
 }
