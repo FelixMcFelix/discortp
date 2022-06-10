@@ -52,7 +52,7 @@ impl Add<u16> for Wrap16 {
 
 impl AddAssign<u16> for Wrap16 {
 	fn add_assign(&mut self, other: u16) {
-		self.0 += Wrapping(other)
+		self.0 += Wrapping(other);
 	}
 }
 
@@ -66,7 +66,7 @@ impl Sub<u16> for Wrap16 {
 
 impl SubAssign<u16> for Wrap16 {
 	fn sub_assign(&mut self, other: u16) {
-		self.0 -= Wrapping(other)
+		self.0 -= Wrapping(other);
 	}
 }
 
@@ -107,7 +107,7 @@ impl Add<u32> for Wrap32 {
 
 impl AddAssign<u32> for Wrap32 {
 	fn add_assign(&mut self, other: u32) {
-		self.0 += Wrapping(other)
+		self.0 += Wrapping(other);
 	}
 }
 
@@ -121,6 +121,6 @@ impl Sub<u32> for Wrap32 {
 
 impl SubAssign<u32> for Wrap32 {
 	fn sub_assign(&mut self, other: u32) {
-		self.0 -= Wrapping(other)
+		self.0 -= Wrapping(other);
 	}
 }
