@@ -5,6 +5,7 @@
 //! [Real-time Transport Protocol]: https://tools.ietf.org/html/rfc3550
 
 use crate::wrap::{Wrap16, Wrap32};
+use alloc::vec::Vec;
 use pnet_macros::packet;
 use pnet_macros_support::{
 	packet::PrimitiveValues,

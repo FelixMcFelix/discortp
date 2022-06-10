@@ -1,12 +1,12 @@
 //! Utility types for wrapping arithmetic, compatible with pnet.
 
+use core::{
+	num::Wrapping,
+	ops::{Add, AddAssign, Sub, SubAssign},
+};
 use pnet_macros_support::{
 	packet::PrimitiveValues,
 	types::{u16be, u32be},
-};
-use std::{
-	num::Wrapping,
-	ops::{Add, AddAssign, Sub, SubAssign},
 };
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]

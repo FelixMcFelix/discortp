@@ -21,8 +21,11 @@
 //! [Serenity]: https://github.com/serenity-rs/serenity
 //! [pnet]: https://docs.rs/pnet
 
+#![no_std]
 #![warn(clippy::pedantic)]
 #![allow(clippy::module_name_repetitions)]
+
+extern crate alloc;
 
 #[cfg(feature = "demux")]
 pub mod demux;
