@@ -22,6 +22,7 @@
 //! [pnet]: https://docs.rs/pnet
 
 #![warn(clippy::pedantic)]
+#![allow(clippy::module_name_repetitions)]
 
 #[cfg(feature = "demux")]
 pub mod demux;
