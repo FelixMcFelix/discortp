@@ -10,11 +10,12 @@ categories = ["encoding", "multimedia::encoding", "network-programming", "parser
 description = "Lightweight, flexible Real-time Transport Protocol (RTP) parsing library."
 readme = "README.md"
 documentation = "https://docs.rs/discortp"
-edition = "2018"
+edition = "2021"
+rust-version = "1.56.1"
 
 [dependencies]
-pnet_macros = "0.28"
-pnet_macros_support = "0.28"
+pnet_macros = "0.31"
+pnet_macros_support = "0.31"
 
 [features]
 default = ["pnet", "rtp", "rtcp"]
