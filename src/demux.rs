@@ -41,6 +41,7 @@ pub enum DemuxedMut<'a> {
 /// [RFC 5761]: https://tools.ietf.org/html/rfc5761#section-4
 /// [`RtcpPacket`]: ../rtcp/struct.RtcpPacket.html
 /// [RTCP packet type]: ../rtcp/enum.RtcpType.html
+#[must_use]
 pub fn demux(pkt: &[u8]) -> Demuxed {
 	if pkt.len() < 2 {
 		Demuxed::TooSmall

@@ -5,7 +5,14 @@
 pub mod report;
 use crate::{FromPacket, MutablePacket, Packet, PacketSize};
 use pnet_macros_support::packet::PrimitiveValues;
-use report::*;
+use report::{
+	MutableReceiverReportPacket,
+	MutableSenderReportPacket,
+	ReceiverReport,
+	ReceiverReportPacket,
+	SenderReport,
+	SenderReportPacket,
+};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
@@ -27,6 +34,7 @@ pub enum RtcpPacket<'a> {
 }
 
 impl RtcpPacket<'_> {
+	#[must_use]
 	pub fn new(pkt: &[u8]) -> Option<RtcpPacket<'_>> {
 		RtcpType::from_packet(pkt).and_then(|rtcp_id| rtcp_id.decode(pkt))
 	}
@@ -34,22 +42,18 @@ impl RtcpPacket<'_> {
 
 impl<'a> Packet for RtcpPacket<'a> {
 	fn packet(&self) -> &[u8] {
-		use RtcpPacket::*;
-
 		match self {
-			SenderReport(s) => s.packet(),
-			ReceiverReport(s) => s.packet(),
-			KnownType(_) => &[],
+			Self::SenderReport(s) => s.packet(),
+			Self::ReceiverReport(s) => s.packet(),
+			Self::KnownType(_) => &[],
 		}
 	}
 
 	fn payload(&self) -> &[u8] {
-		use RtcpPacket::*;
-
 		match self {
-			SenderReport(s) => s.payload(),
-			ReceiverReport(s) => s.payload(),
-			KnownType(_) => &[],
+			Self::SenderReport(s) => s.payload(),
+			Self::ReceiverReport(s) => s.payload(),
+			Self::KnownType(_) => &[],
 		}
 	}
 }
@@ -58,24 +62,20 @@ impl<'a> FromPacket for RtcpPacket<'a> {
 	type T = Rtcp;
 
 	fn from_packet(&self) -> Self::T {
-		use RtcpPacket::*;
-
 		match self {
-			SenderReport(s) => Rtcp::SenderReport(s.from_packet()),
-			ReceiverReport(s) => Rtcp::ReceiverReport(s.from_packet()),
-			KnownType(t) => Rtcp::KnownType(*t),
+			Self::SenderReport(s) => Rtcp::SenderReport(s.from_packet()),
+			Self::ReceiverReport(s) => Rtcp::ReceiverReport(s.from_packet()),
+			Self::KnownType(t) => Rtcp::KnownType(*t),
 		}
 	}
 }
 
 impl<'a> PacketSize for RtcpPacket<'a> {
 	fn packet_size(&self) -> usize {
-		use RtcpPacket::*;
-
 		match self {
-			SenderReport(s) => s.packet_size(),
-			ReceiverReport(s) => s.packet_size(),
-			KnownType(_) => 0,
+			Self::SenderReport(s) => s.packet_size(),
+			Self::ReceiverReport(s) => s.packet_size(),
+			Self::KnownType(_) => 0,
 		}
 	}
 }
@@ -98,44 +98,36 @@ impl MutableRtcpPacket<'_> {
 
 impl<'a> Packet for MutableRtcpPacket<'a> {
 	fn packet(&self) -> &[u8] {
-		use MutableRtcpPacket::*;
-
 		match self {
-			SenderReport(s) => s.packet(),
-			ReceiverReport(s) => s.packet(),
-			KnownType(_) => &[],
+			Self::SenderReport(s) => s.packet(),
+			Self::ReceiverReport(s) => s.packet(),
+			Self::KnownType(_) => &[],
 		}
 	}
 
 	fn payload(&self) -> &[u8] {
-		use MutableRtcpPacket::*;
-
 		match self {
-			SenderReport(s) => s.payload(),
-			ReceiverReport(s) => s.payload(),
-			KnownType(_) => &[],
+			Self::SenderReport(s) => s.payload(),
+			Self::ReceiverReport(s) => s.payload(),
+			Self::KnownType(_) => &[],
 		}
 	}
 }
 
 impl<'a> MutablePacket for MutableRtcpPacket<'a> {
 	fn packet_mut(&mut self) -> &mut [u8] {
-		use MutableRtcpPacket::*;
-
 		match self {
-			SenderReport(s) => s.packet_mut(),
-			ReceiverReport(s) => s.packet_mut(),
-			KnownType(_) => &mut [],
+			Self::SenderReport(s) => s.packet_mut(),
+			Self::ReceiverReport(s) => s.packet_mut(),
+			Self::KnownType(_) => &mut [],
 		}
 	}
 
 	fn payload_mut(&mut self) -> &mut [u8] {
-		use MutableRtcpPacket::*;
-
 		match self {
-			SenderReport(s) => s.payload_mut(),
-			ReceiverReport(s) => s.payload_mut(),
-			KnownType(_) => &mut [],
+			Self::SenderReport(s) => s.payload_mut(),
+			Self::ReceiverReport(s) => s.payload_mut(),
+			Self::KnownType(_) => &mut [],
 		}
 	}
 }
@@ -144,24 +136,20 @@ impl<'a> FromPacket for MutableRtcpPacket<'a> {
 	type T = Rtcp;
 
 	fn from_packet(&self) -> Self::T {
-		use MutableRtcpPacket::*;
-
 		match self {
-			SenderReport(s) => Rtcp::SenderReport(s.from_packet()),
-			ReceiverReport(s) => Rtcp::ReceiverReport(s.from_packet()),
-			KnownType(t) => Rtcp::KnownType(*t),
+			Self::SenderReport(s) => Rtcp::SenderReport(s.from_packet()),
+			Self::ReceiverReport(s) => Rtcp::ReceiverReport(s.from_packet()),
+			Self::KnownType(t) => Rtcp::KnownType(*t),
 		}
 	}
 }
 
 impl<'a> PacketSize for MutableRtcpPacket<'a> {
 	fn packet_size(&self) -> usize {
-		use MutableRtcpPacket::*;
-
 		match self {
-			SenderReport(s) => s.packet_size(),
-			ReceiverReport(s) => s.packet_size(),
-			KnownType(_) => 0,
+			Self::SenderReport(s) => s.packet_size(),
+			Self::ReceiverReport(s) => s.packet_size(),
+			Self::KnownType(_) => 0,
 		}
 	}
 }
@@ -295,54 +283,51 @@ pub enum RtcpType {
 }
 
 impl<'a> RtcpType {
+	#[must_use]
 	pub fn new(val: u8) -> Self {
-		use RtcpType::*;
 		match val {
-			194 => SmpteMap,
-			195 => JitterReport,
-			200 => SenderReport,
-			201 => ReceiverReport,
-			202 => SourceDescription,
-			203 => Goodbye,
-			204 => ApplicationDefined,
-			205 => TransportFeedback,
-			206 => PayloadFeedback,
-			207 => ExtendedReport,
-			208 => Avb,
-			209 => ReceiverSummary,
-			210 => PortMapping,
-			211 => Idms,
-			212 => ReportingGroupSources,
-			213 => SplicingNotification,
-			0 | 192 | 193 | 255 => Reserved(val),
-			_ => Unassigned(val),
+			194 => Self::SmpteMap,
+			195 => Self::JitterReport,
+			200 => Self::SenderReport,
+			201 => Self::ReceiverReport,
+			202 => Self::SourceDescription,
+			203 => Self::Goodbye,
+			204 => Self::ApplicationDefined,
+			205 => Self::TransportFeedback,
+			206 => Self::PayloadFeedback,
+			207 => Self::ExtendedReport,
+			208 => Self::Avb,
+			209 => Self::ReceiverSummary,
+			210 => Self::PortMapping,
+			211 => Self::Idms,
+			212 => Self::ReportingGroupSources,
+			213 => Self::SplicingNotification,
+			0 | 192 | 193 | 255 => Self::Reserved(val),
+			_ => Self::Unassigned(val),
 		}
 	}
 
+	#[must_use]
 	pub fn decode(&self, pkt: &'a [u8]) -> Option<RtcpPacket<'a>> {
-		use RtcpType::*;
-
 		match self {
-			SenderReport => SenderReportPacket::new(pkt).map(RtcpPacket::SenderReport),
-			ReceiverReport => ReceiverReportPacket::new(pkt).map(RtcpPacket::ReceiverReport),
+			Self::SenderReport => SenderReportPacket::new(pkt).map(RtcpPacket::SenderReport),
+			Self::ReceiverReport => ReceiverReportPacket::new(pkt).map(RtcpPacket::ReceiverReport),
 			a => Some(RtcpPacket::KnownType(*a)),
 		}
 	}
 
 	pub fn decode_mut(&self, pkt: &'a mut [u8]) -> Option<MutableRtcpPacket<'a>> {
-		use RtcpType::*;
-
 		match self {
-			SenderReport =>
+			Self::SenderReport =>
 				MutableSenderReportPacket::new(pkt).map(MutableRtcpPacket::SenderReport),
-			ReceiverReport =>
+			Self::ReceiverReport =>
 				MutableReceiverReportPacket::new(pkt).map(MutableRtcpPacket::ReceiverReport),
 			a => Some(MutableRtcpPacket::KnownType(*a)),
 		}
 	}
 
 	pub fn from_packet(pkt: &[u8]) -> Option<Self> {
-		pkt.get(1).cloned().map(Self::new)
+		pkt.get(1).copied().map(Self::new)
 	}
 }
 
@@ -350,27 +335,25 @@ impl PrimitiveValues for RtcpType {
 	type T = (u8,);
 
 	fn to_primitive_values(&self) -> Self::T {
-		use RtcpType::*;
 		match self {
-			SmpteMap => (194,),
-			JitterReport => (195,),
-			SenderReport => (200,),
-			ReceiverReport => (201,),
-			SourceDescription => (202,),
-			Goodbye => (203,),
-			ApplicationDefined => (204,),
-			TransportFeedback => (205,),
-			PayloadFeedback => (206,),
-			ExtendedReport => (207,),
-			Avb => (208,),
-			ReceiverSummary => (209,),
-			PortMapping => (210,),
-			Idms => (211,),
-			ReportingGroupSources => (212,),
-			SplicingNotification => (213,),
+			Self::SmpteMap => (194,),
+			Self::JitterReport => (195,),
+			Self::SenderReport => (200,),
+			Self::ReceiverReport => (201,),
+			Self::SourceDescription => (202,),
+			Self::Goodbye => (203,),
+			Self::ApplicationDefined => (204,),
+			Self::TransportFeedback => (205,),
+			Self::PayloadFeedback => (206,),
+			Self::ExtendedReport => (207,),
+			Self::Avb => (208,),
+			Self::ReceiverSummary => (209,),
+			Self::PortMapping => (210,),
+			Self::Idms => (211,),
+			Self::ReportingGroupSources => (212,),
+			Self::SplicingNotification => (213,),
 
-			Reserved(val) => (*val,),
-			Unassigned(val) => (*val,),
+			Self::Reserved(val) | Self::Unassigned(val) => (*val,),
 		}
 	}
 }
