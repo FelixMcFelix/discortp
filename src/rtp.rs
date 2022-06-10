@@ -4,9 +4,12 @@
 //!
 //! [Real-time Transport Protocol]: https://tools.ietf.org/html/rfc3550
 
-use crate::wrap::*;
+use crate::wrap::{Wrap16, Wrap32};
 use pnet_macros::packet;
-use pnet_macros_support::{packet::PrimitiveValues, types::*};
+use pnet_macros_support::{
+	packet::PrimitiveValues,
+	types::{u1, u16be, u2, u32be, u4, u7},
+};
 
 #[packet]
 #[derive(Eq, PartialEq)]
@@ -208,34 +211,34 @@ pub enum RtpType {
 }
 
 impl RtpType {
+	#[must_use]
 	pub fn new(val: u7) -> Self {
-		use RtpType::*;
 		match val {
-			0 => Pcmu,
-			3 => Gsm,
-			4 => G723,
-			5 | 6 | 16 | 17 => Dvi4(val),
-			7 => Lpc,
-			8 => Pcma,
-			9 => G722,
-			10 => L16Stereo,
-			11 => L16Mono,
-			12 => Qcelp,
-			13 => Cn,
-			14 => Mpa,
-			15 => G728,
-			18 => G729,
-			25 => CelB,
-			26 => Jpeg,
-			28 => Nv,
-			31 => H261,
-			32 => Mpv,
-			33 => Mp2t,
-			34 => H263,
-			1..=2 | 19 | 72..=76 => Reserved(val),
-			96..=127 => Dynamic(val),
-			128..=255 => Illegal(val),
-			_ => Unassigned(val),
+			0 => Self::Pcmu,
+			3 => Self::Gsm,
+			4 => Self::G723,
+			5 | 6 | 16 | 17 => Self::Dvi4(val),
+			7 => Self::Lpc,
+			8 => Self::Pcma,
+			9 => Self::G722,
+			10 => Self::L16Stereo,
+			11 => Self::L16Mono,
+			12 => Self::Qcelp,
+			13 => Self::Cn,
+			14 => Self::Mpa,
+			15 => Self::G728,
+			18 => Self::G729,
+			25 => Self::CelB,
+			26 => Self::Jpeg,
+			28 => Self::Nv,
+			31 => Self::H261,
+			32 => Self::Mpv,
+			33 => Self::Mp2t,
+			34 => Self::H263,
+			1..=2 | 19 | 72..=76 => Self::Reserved(val),
+			96..=127 => Self::Dynamic(val),
+			128..=255 => Self::Illegal(val),
+			_ => Self::Unassigned(val),
 		}
 	}
 }
@@ -244,34 +247,33 @@ impl PrimitiveValues for RtpType {
 	type T = (u7,);
 
 	fn to_primitive_values(&self) -> Self::T {
-		use RtpType::*;
 		match self {
-			Pcmu => (0,),
-			Gsm => (3,),
-			G723 => (4,),
-			Dvi4(val) => (*val,),
-			Lpc => (7,),
-			Pcma => (8,),
-			G722 => (9,),
-			L16Stereo => (10,),
-			L16Mono => (11,),
-			Qcelp => (12,),
-			Cn => (13,),
-			Mpa => (14,),
-			G728 => (15,),
-			G729 => (18,),
-			CelB => (25,),
-			Jpeg => (26,),
-			Nv => (28,),
-			H261 => (31,),
-			Mpv => (32,),
-			Mp2t => (33,),
-			H263 => (34,),
+			Self::Pcmu => (0,),
+			Self::Gsm => (3,),
+			Self::G723 => (4,),
+			Self::Dvi4(val) => (*val,),
+			Self::Lpc => (7,),
+			Self::Pcma => (8,),
+			Self::G722 => (9,),
+			Self::L16Stereo => (10,),
+			Self::L16Mono => (11,),
+			Self::Qcelp => (12,),
+			Self::Cn => (13,),
+			Self::Mpa => (14,),
+			Self::G728 => (15,),
+			Self::G729 => (18,),
+			Self::CelB => (25,),
+			Self::Jpeg => (26,),
+			Self::Nv => (28,),
+			Self::H261 => (31,),
+			Self::Mpv => (32,),
+			Self::Mp2t => (33,),
+			Self::H263 => (34,),
 
-			Dynamic(val) => (*val,),
-			Unassigned(val) => (*val,),
-			Reserved(val) => (*val,),
-			Illegal(val) => (*val,),
+			Self::Dynamic(val) => (*val,),
+			Self::Unassigned(val) => (*val,),
+			Self::Reserved(val) => (*val,),
+			Self::Illegal(val) => (*val,),
 		}
 	}
 }

@@ -3,7 +3,10 @@
 //! *These are included when using the `"discord"` feature.*
 
 use pnet_macros::packet;
-use pnet_macros_support::{packet::PrimitiveValues, types::*};
+use pnet_macros_support::{
+	packet::PrimitiveValues,
+	types::{u16be, u32be},
+};
 
 #[packet]
 #[derive(Eq, PartialEq)]
@@ -90,6 +93,7 @@ const IP_DISCOVERY_LEN: usize = IpDiscoveryPacket::minimum_packet_size() + 64;
 
 impl IpDiscoveryPacket<'_> {
 	/// Standard packet length when using Discord-specified lengths.
+	#[must_use]
 	pub const fn const_packet_size() -> usize {
 		IP_DISCOVERY_LEN
 	}
@@ -97,6 +101,7 @@ impl IpDiscoveryPacket<'_> {
 
 impl MutableIpDiscoveryPacket<'_> {
 	/// Standard packet length when using Discord-specified lengths.
+	#[must_use]
 	pub const fn const_packet_size() -> usize {
 		IP_DISCOVERY_LEN
 	}

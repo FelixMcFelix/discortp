@@ -1,7 +1,13 @@
 //! Utility types for wrapping arithmetic, compatible with pnet.
 
-use pnet_macros_support::{packet::PrimitiveValues, types::*};
-use std::{num::Wrapping, ops::*};
+use pnet_macros_support::{
+	packet::PrimitiveValues,
+	types::{u16be, u32be},
+};
+use std::{
+	num::Wrapping,
+	ops::{Add, AddAssign, Sub, SubAssign},
+};
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub struct Wrap16(pub Wrapping<u16>);
@@ -10,6 +16,7 @@ pub struct Wrap16(pub Wrapping<u16>);
 pub struct Wrap32(pub Wrapping<u32>);
 
 impl Wrap16 {
+	#[must_use]
 	pub fn new(v: u16be) -> Self {
 		Self(Wrapping(v))
 	}
@@ -64,6 +71,7 @@ impl SubAssign<u16> for Wrap16 {
 }
 
 impl Wrap32 {
+	#[must_use]
 	pub fn new(v: u32be) -> Self {
 		Self(Wrapping(v))
 	}

@@ -1,6 +1,6 @@
 use crate::rtcp::RtcpType;
 use pnet_macros::packet;
-use pnet_macros_support::types::*;
+use pnet_macros_support::types::{u1, u16be, u2, u24be, u32be, u5};
 
 #[packet]
 #[derive(Eq, PartialEq)]
