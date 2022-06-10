@@ -251,7 +251,6 @@ impl PrimitiveValues for RtpType {
 			Self::Pcmu => (0,),
 			Self::Gsm => (3,),
 			Self::G723 => (4,),
-			Self::Dvi4(val) => (*val,),
 			Self::Lpc => (7,),
 			Self::Pcma => (8,),
 			Self::G722 => (9,),
@@ -270,10 +269,11 @@ impl PrimitiveValues for RtpType {
 			Self::Mp2t => (33,),
 			Self::H263 => (34,),
 
-			Self::Dynamic(val) => (*val,),
-			Self::Unassigned(val) => (*val,),
-			Self::Reserved(val) => (*val,),
-			Self::Illegal(val) => (*val,),
+			Self::Dvi4(val)
+			| Self::Dynamic(val)
+			| Self::Unassigned(val)
+			| Self::Reserved(val)
+			| Self::Illegal(val) => (*val,),
 		}
 	}
 }

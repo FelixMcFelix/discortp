@@ -353,8 +353,7 @@ impl PrimitiveValues for RtcpType {
 			Self::ReportingGroupSources => (212,),
 			Self::SplicingNotification => (213,),
 
-			Self::Reserved(val) => (*val,),
-			Self::Unassigned(val) => (*val,),
+			Self::Reserved(val) | Self::Unassigned(val) => (*val,),
 		}
 	}
 }
