@@ -1,6 +1,10 @@
 # Changelog
 Notable updates will be documented here, adhering to [Semantic Versioning][semver].
 
+## [0.6.0] - 2023-11-17
+* Update `libpnet` version to 0.34.
+* MSRV is now Rust 1.65.
+
 ## [0.5.0] - 2022-06-10
 * Update `libpnet` version to 0.31.
 * Crate is now `#![no_std]`.
@@ -35,7 +39,8 @@ Notable updates will be documented here, adhering to [Semantic Versioning][semve
 ## [0.1.0] - 2020-05-04
 * Initial version.
 
-[0.4.0]: https://github.com/FelixMcFelix/discortp/compare/v0.4.0...v0.5.0
+[0.6.0]: https://github.com/FelixMcFelix/discortp/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/FelixMcFelix/discortp/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/FelixMcFelix/discortp/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/FelixMcFelix/discortp/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/FelixMcFelix/discortp/compare/v0.2.1...v0.2.2

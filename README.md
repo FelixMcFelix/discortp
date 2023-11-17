@@ -30,5 +30,5 @@ discortp = "0.3"
 [license]: https://img.shields.io/crates/l/discortp?style=flat-square
 [license link]: https://opensource.org/licenses/ISC
 
-[rust version badge]: https://img.shields.io/badge/rust-1.56.1+-93450a.svg?style=flat-square
-[rust version link]: https://blog.rust-lang.org/2021/11/01/Rust-1.56.1.html
+[rust version badge]: https://img.shields.io/badge/rust-1.65.0+-93450a.svg?style=flat-square
+[rust version link]: https://blog.rust-lang.org/2022/11/03/Rust-1.65.0.html
